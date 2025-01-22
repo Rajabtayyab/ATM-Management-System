@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+int main() {
+    const int numAccounts = 50; // Updated to match predefined names
+    string accountNames[numAccounts] = {
+        "Mudasser Fayyaz", "Rajabktk", "Zulqarnan", "Ahmed Khan", "Ali Raza", 
+        "Fatima Zafar", "Hina Sheikh", "Saad Hussain", "Ayesha Malik", "Umar Aslam", 
+        "Sana Javed", "Bilal Shahid", "Hassan Nawaz", "Maria Khan", "Arslan Qureshi", 
+        "Zara Tariq", "Asad Umar", "Iqra Aziz", "Fahad Mustafa", "Sarah Malik", 
+        "Nida Yasir", "Rehan Qureshi", "Shahzad Ali", "Noor Fatima", "Junaid Ahmed", 
+        "Hira Salman", "Danish Nawaz", "Usman Tariq", "Amna Sheikh", "Ali Zafar", 
+        "Waqar Younis", "Shaista Wahidi", "Tariq Mehmood", "Mehwish Hayat", "Feroze Khan", 
+        "Maya Ali", "Mohsin Abbas", "Zaid Ali", "Hira Mani", "Abid Ali", 
+        "Adnan Siddiqui", "Moin Khan", "Saima Akram", "Imran Nazir", "Bushra Ansari", 
+        "Yasir Shah", "Anum Fayaz", "Javeria Abbasi", "Faysal Qureshi", "Samina Peerzada"
+    };
+    int accountBalances[numAccounts];
+
+    // Assign random balances
+    srand(time(0));
+    for (int i = 0; i < numAccounts; i++) {
+        accountBalances[i] = rand() % 50000 + 1000; // Between Rs. 1000 and Rs. 50000
+    }
+
+    string userName;
+    string pin;
+    bool accountFound = false;
+
+    // Input username and PIN
+    cout << "Welcome to the ATM!\n";
+    cout << "Please enter your account name: ";
+    getline(cin, userName);
+    cout << "Enter your PIN (any password): ";
+    cin >> pin;
+
+    // Search for account
+    for (int i = 0; i < numAccounts; i++) {
+        if (accountNames[i] == userName) {
+            accountFound = true;
+
+            // Display account details
+            cout << "\n--- Account Details ---\n";
+            cout << "Account Name: " << accountNames[i] << endl;
+            cout << "Account Balance: Rs. " << accountBalances[i] << endl;
+
+            // ATM menu
+            int choice;
+            while (true) {
+                cout << "\n--- ATM Menu ---\n";
+                cout << "1. Check Balance\n";
+                cout << "2. Withdraw Money\n";
+                cout << "3. Deposit Money\n";
+                cout << "4. Exit\n";
+                cout << "Enter your choice: ";
+                cin >> choice;
+
+                if (choice == 1) {
+                    cout << "Your current balance is Rs. " << accountBalances[i] << endl;
+                } else if (choice == 2) {
+                    int withdrawAmount;
+                    cout << "Enter amount to withdraw: ";
+                    cin >> withdrawAmount;
+                    if (withdrawAmount > accountBalances[i]) {
+                        cout << "Insufficient balance!\n";
+                    } else {
+                        accountBalances[i] -= withdrawAmount;
+                        cout << "You have successfully withdrawn Rs. " << withdrawAmount << ".\n";
+                        cout << "Remaining balance: Rs. " << accountBalances[i] << endl;
+                    }
+                } else if (choice == 3) {
+                    int depositAmount;
+                    cout << "Enter amount to deposit: ";
+                    cin >> depositAmount;
+                    accountBalances[i] += depositAmount;
+                    cout << "You have successfully deposited Rs. " << depositAmount << ".\n";
+                    cout << "New balance: Rs. " << accountBalances[i] << endl;
+                } else if (choice == 4) {
+                    cout << "Thank you for using the ATM. Goodbye!\n";
+                    break;
+                } else {
+                    cout << "Invalid choice. Please try again.\n";
+                }
+            }
+            break;
+        }
+    }
+
+    if (!accountFound) {
+        cout << "Account not found. Please check your name and try again.\n";
+    }
+
+    return 0;
+}
